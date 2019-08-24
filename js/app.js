@@ -69,8 +69,8 @@ class UI {
       }, 3000)
     } else {
       let amount = parseInt(amountValue);
-      this.expenseInput = "";
-      this.amountInput = "";
+      this.expenseInput.value = "";
+      this.amountInput.value = "";
 
       let expense = {
         id: this.itemID,
@@ -80,7 +80,7 @@ class UI {
       this.itemID++;
       this.itemList.push(expense);
       this.addExpense(expense);
-      // show balance
+      this.showBalance();
     }
   }
 
@@ -91,7 +91,7 @@ class UI {
     div.innerHTML = `
     <div class="expense-item d-flex justify-content-between align-items-baseline">
 
-         <h6 class="expense-title mb-0 text-uppercase list-item">-${expence.title}</h6>
+         <h6 class="expense-title mb-0 text-uppercase list-item">- ${expence.title}</h6>
          <h5 class="expense-amount mb-0 list-item">${expence.amount}</h5>
 
          <div class="expense-icons list-item">
@@ -110,7 +110,16 @@ class UI {
 
   // total expense 
   totalExpense() {
-    let total = 400;
+    let total = 0;
+    
+    if (this.itemList.length > 0) {
+      total = this.itemList.reduce(function(acc, curr) {
+        acc += curr.amount;
+        return acc;
+      }, 0)
+    }
+
+    this.expenseAmount.textContent = total;
     return total;
   }
 }
